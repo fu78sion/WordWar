@@ -16,6 +16,7 @@ import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
@@ -42,6 +43,7 @@ public class MyViewModel extends AndroidViewModel {
 
     public int token = 0;
     public boolean winFlag = false;
+    public ArrayList<Integer> list = new ArrayList<>();
 
     //主要用在每次回退时token清零，提供了一个接口
     public void setToken(int token) {
@@ -191,13 +193,21 @@ public class MyViewModel extends AndroidViewModel {
         //设置答案
         getAnswer().setValue(wordList.get(token).getExp());
 
-        //设置按钮
-        getButtonA().setValue(wordList.get(x).getExp());
-        getButtonB().setValue(wordList.get(token).getExp());
-        getButtonC().setValue(wordList.get(y).getExp());
-        getButtonD().setValue(wordList.get(z).getExp());
+        list.add(token);
+        list.add(x);
+        list.add(y);
+        list.add(z);
+        Collections.shuffle(list);
+
+
+        //设置按钮 实现真正随机
+        getButtonA().setValue(wordList.get(list.get(0)).getExp());
+        getButtonB().setValue(wordList.get(list.get(1)).getExp());
+        getButtonC().setValue(wordList.get(list.get(2)).getExp());
+        getButtonD().setValue(wordList.get(list.get(3)).getExp());
 
         token++;
+        list.clear();
     }
 
     //保存最高纪录
