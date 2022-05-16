@@ -2,11 +2,17 @@ package com.example.wordwar;
 
 import android.os.Bundle;
 
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.wordwar.databinding.FragmentTitleBinding;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -59,6 +65,39 @@ public class TitleFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_title, container, false);
+
+        //1. 先把return注释掉,就第一步不太一样，
+        // return inflater.inflate(R.layout.fragment_title, container, false);
+
+        //2. 定义变量 myViewModel 没什么大变化
+        MyViewModel myViewModel = new ViewModelProvider(getActivity()).get(MyViewModel.class);
+
+        // binding变化很大
+        FragmentTitleBinding binding = DataBindingUtil.inflate(inflater,R.layout.fragment_title,container,false);
+
+        // 这里的set方法跟xml中的变量名有关
+        binding.setData(myViewModel);
+
+        //livedata自我监听
+        binding.setLifecycleOwner(getActivity());
+
+        binding.button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavController controller = Navigation.findNavController(view);
+                controller.navigate(R.id.action_titleFragment_to_fightFragment);
+            }
+        });
+
+        binding.button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavController controller = Navigation.findNavController(view);
+                controller.navigate(R.id.action_titleFragment_to_practiceFragment);
+            }
+        });
+
+        //最后一步，常规操作
+        return binding.getRoot();
     }
 }

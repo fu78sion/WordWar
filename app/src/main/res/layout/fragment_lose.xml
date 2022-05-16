@@ -6,7 +6,7 @@
     <data>
         <variable
             name="data"
-            type="com.example.calculationtest.MyViewModel" />
+            type="com.example.wordwar.MyViewModel" />
 
     </data>
 
@@ -37,7 +37,7 @@
                 android:id="@+id/imageView4"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
-                android:contentDescription="TODO"
+                android:contentDescription="@string/lose_logo"
                 android:src="@drawable/ic_lose"
                 app:layout_constraintBottom_toTopOf="@+id/guideline21"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -63,7 +63,7 @@
                 android:id="@+id/textView10"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="YOU LOSE~"
+                android:text="@string/you_lose"
                 android:textSize="34sp"
                 app:layout_constraintBottom_toTopOf="@+id/guideline22"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -75,23 +75,24 @@
                 android:id="@+id/textView11"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{@string/lose_score(data.currentScore)}"
+                android:text="@{@string/lose_score(data.CurrentScore)}"
                 android:textSize="34sp"
                 app:layout_constraintBottom_toTopOf="@+id/guideline23"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/guideline23"
-                tools:text="You Score:" />
+                tools:text="You Score :" />
 
             <Button
                 android:id="@+id/button10"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Back"
+                android:text="@string/lose_back"
                 app:layout_constraintBottom_toTopOf="@+id/guideline24"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/guideline24" />
+                app:layout_constraintTop_toTopOf="@+id/guideline24"
+                tools:ignore="TextContrastCheck" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </FrameLayout>

@@ -46,6 +46,9 @@
         <action
             android:id="@+id/action_practiceFragment_to_titleFragment"
             app:destination="@id/titleFragment" />
+        <action
+            android:id="@+id/action_practiceFragment_to_webFragment"
+            app:destination="@id/webFragment" />
     </fragment>
     <fragment
         android:id="@+id/winFragment"
@@ -55,5 +58,14 @@
         <action
             android:id="@+id/action_winFragment_to_titleFragment"
             app:destination="@id/titleFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/webFragment"
+        android:name="com.example.wordwar.WebFragment"
+        android:label="fragment_web"
+        tools:layout="@layout/fragment_web" >
+        <action
+            android:id="@+id/action_webFragment_to_practiceFragment"
+            app:destination="@id/practiceFragment" />
     </fragment>
 </navigation>

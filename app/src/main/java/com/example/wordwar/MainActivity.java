@@ -1,7 +1,13 @@
 package com.example.wordwar;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.ui.NavigationUI;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -20,64 +26,66 @@ import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button button;
+    //顶部导航栏
+    NavController controller;
+    MyViewModel myViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-       //button = findViewById(R.id.button);
-       //button.setOnClickListener(new View.OnClickListener() {
-       //    @Override
-       //    public void onClick(View view) {
 
-       //        sendRequestWithOkHttp();
-       //    }
-       //});
+        //1. 获取controller,这样会报错
+        //controller = Navigation.findNavController(this, R.id.fragmentContainerView);
+        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView2);
+        assert navHostFragment != null;
+        controller = navHostFragment.getNavController();
+
+        //2. 设置左上角导航栏
+        NavigationUI.setupActionBarWithNavController(this, controller);
     }
 
-    // 网络部分采用OKHttp的方式
-    private void sendRequestWithOkHttp(){
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
+    //3. 设置导航栏作用
+    @Override
+    public boolean onSupportNavigateUp() {
+        myViewModel = new ViewModelProvider(this).get(MyViewModel.class);
+        //正在答题时退出
+        if (controller.getCurrentDestination().getId() == R.id.fightFragment) {
 
-                    //1. 创建OKHTTPClient实例
-                    OkHttpClient client = new OkHttpClient();
+            //创建对话框
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Are You Sure?"); //getString获取一个对象 转换成String类型
+            builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
 
-                    //2. 创建Request对象,设置目标网络地址
-                    Request request = new Request.Builder()
-
-                            //这里降低了targetSdk版本 不然会报错，无法解析
-                            .url("http://10.0.2.2/word_plant.js")
-                            .build();
-
-                    //3. 发送请求获取返回数据
-                    Response response = client.newCall(request).execute();
-
-                    //4. 获得具体内容
-                    String responseData = Objects.requireNonNull(response.body()).string();
-
-                    //5. 自定义操作
-                    parseJSONWithGSON(responseData); //用JSONObject解析json
-
-                } catch (IOException e) {
-                    e.printStackTrace();
+                    //退出时当前分数清零
+                    myViewModel.getCurrentScore().setValue(0);
+                    myViewModel.setToken(0);
+                    controller.navigateUp();
                 }
-            }
-        }).start();
+            });
+            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+
+                }
+            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        } else if (controller.getCurrentDestination().getId() == R.id.titleFragment) {
+            finish();
+        } else {
+            controller.navigate(R.id.titleFragment);
+        }
+        return super.onSupportNavigateUp();
     }
 
-    private void parseJSONWithGSON(String jsonData) {
-        Gson gson = new Gson();
-        List<Word> wordList = gson.fromJson(jsonData,
-                new TypeToken<List<Word>>() {
-                }.getType());
-        for (Word word : wordList) {
-            Log.d("MainActivity", "word is: " + word.getWord());
-            Log.d("MainActivity", "speak is: " + word.getSpeak());
-            Log.d("MainActivity", "exp is: " + word.getExp());
-        }
+    //4. 重写back键
+    @Override
+    public void onBackPressed() {
+        onSupportNavigateUp();
     }
+
+
 }

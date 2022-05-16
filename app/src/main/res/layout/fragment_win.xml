@@ -6,7 +6,7 @@
     <data>
         <variable
             name="data"
-            type="com.example.calculationtest.MyViewModel" />
+            type="com.example.wordwar.MyViewModel" />
 
     </data>
 
@@ -27,7 +27,9 @@
                 app:layout_constraintBottom_toTopOf="@+id/guideline20"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/guideline20" />
+                app:layout_constraintTop_toTopOf="@+id/guideline20"
+                tools:ignore="ImageContrastCheck"
+                android:contentDescription="@string/win_logo" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline20"
@@ -61,7 +63,7 @@
                 android:id="@+id/textView12"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="YOU WIN!"
+                android:text="@string/you_win"
                 android:textSize="34sp"
                 app:layout_constraintBottom_toTopOf="@+id/guideline25"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -85,11 +87,12 @@
                 android:id="@+id/button11"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Back"
+                android:text="@string/win_back"
                 app:layout_constraintBottom_toTopOf="@+id/guideline27"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/guideline27" />
+                app:layout_constraintTop_toTopOf="@+id/guideline27"
+                tools:ignore="TextContrastCheck" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </FrameLayout>
 </layout>
