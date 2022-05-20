@@ -1,28 +1,26 @@
-package com.example.wordwar;
+package com.example.wordwar.fragment;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
-import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
-import com.example.wordwar.databinding.FragmentFightBinding;
-import com.example.wordwar.databinding.FragmentPracticeBinding;
+import com.example.wordwar.utils.MyAdapter;
+import com.example.wordwar.MyViewModel;
+import com.example.wordwar.R;
+import com.example.wordwar.utils.Word;
+import com.example.wordwar.activity.MainActivity;
 
 import java.util.List;
-import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -91,9 +89,10 @@ public class PracticeFragment extends Fragment {
         recyclerView.setAdapter(myAdapter);
 
         //设置viewModel 方便存储数据
-        MyViewModel myViewModel = new ViewModelProvider(requireActivity()).get(MyViewModel.class);
+        // MainActivity.mainActivity方便共享同一个viewModel，不然新的activity数据显示不出来
+        MyViewModel myViewModel = new ViewModelProvider(MainActivity.mainActivity).get(MyViewModel.class);
 
-        //用liveData来监听数据，DataBinding不会写
+        //用liveData来监听数据
         myViewModel.getAllWordsLive().observe(requireActivity(), new Observer<List<Word>>() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
@@ -104,31 +103,6 @@ public class PracticeFragment extends Fragment {
 
                 //调用
                 myAdapter.notifyDataSetChanged();
-            }
-        });
-
-        Button button_back,button_web;
-        button_back = requireView().findViewById(R.id.button7);
-        button_web = requireView().findViewById(R.id.button8);
-        button_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //找到button归属的controller
-                NavController controller = Navigation.findNavController(view);
-
-                //设置动作
-                controller.navigate(R.id.action_practiceFragment_to_titleFragment);
-            }
-        });
-
-        button_web.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //找到button归属的controller
-                NavController controller = Navigation.findNavController(view);
-
-                //设置动作
-                controller.navigate(R.id.action_practiceFragment_to_webFragment);
             }
         });
     }

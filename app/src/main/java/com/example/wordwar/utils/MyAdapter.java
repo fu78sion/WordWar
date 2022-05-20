@@ -1,14 +1,18 @@
-package com.example.wordwar;
+package com.example.wordwar.utils;
 
+import android.net.Uri;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.wordwar.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +50,19 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         holder.textViewNumber.setText(String.valueOf(position + 1));
         holder.textViewEnglish.setText(word.getWord());
         holder.textViewChinese.setText(word.getExp());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Uri uri = Uri.parse("https://m.youdao.com/dict?le=eng&q=" + holder.textViewEnglish.getText());
+                Bundle bundle = new Bundle();
+                bundle.putString("uri",uri.toString());
+
+                NavController controller = Navigation.findNavController(view);
+
+                //设置动作
+                controller.navigate(R.id.webFragment,bundle);
+            }
+        });
     }
 
     @Override
@@ -57,6 +74,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     static class MyViewHolder extends RecyclerView.ViewHolder{ //加static 防止内存泄露
 
         TextView textViewNumber,textViewEnglish,textViewChinese;
+
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -64,6 +82,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             textViewNumber = itemView.findViewById(R.id.textView_number);
             textViewEnglish = itemView.findViewById(R.id.textView_english);
             textViewChinese = itemView.findViewById(R.id.textView_chinese);
+
         }
     }
 }

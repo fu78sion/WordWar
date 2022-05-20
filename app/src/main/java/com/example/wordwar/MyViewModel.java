@@ -11,6 +11,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.SavedStateHandle;
 
+import com.example.wordwar.utils.Word;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -41,18 +42,25 @@ public class MyViewModel extends AndroidViewModel {
     private final static String KEY_Button_D = "key_button_d"; // 按钮
     private final static String SAVE_SHP_DATA_NAME = "save_shp_data_name"; //shp存储
 
-    public int token = 0;
-    public boolean winFlag = false;
-    public ArrayList<Integer> list = new ArrayList<>();
+    public int token = 0;//出题要用到的下标
+    public boolean winFlag = false; //记录标识，看是否有新纪录
+    public ArrayList<Integer> list = new ArrayList<>(); //作用：打乱四个选项的顺序
+    public ArrayList<Integer> newWordList = new ArrayList<>(); //作用：出题时随机打乱顺序
+
+    //所有单词存储进list，gson解析的数据都存放到这里
+    List<Word> wordList = new ArrayList<>();
+    MutableLiveData<List<Word>> allWordsLive;
+
+    //复习模式存储
+    Word wordTemp = new Word(); //存放临时word
+    List<Word> wordListReview = new ArrayList<>();
+    MutableLiveData<List<Word>> allWordsLiveReview;
+
 
     //主要用在每次回退时token清零，提供了一个接口
     public void setToken(int token) {
         this.token = token;
     }
-
-    //所有单词存储进list
-    List<Word> wordList = new ArrayList<>();
-    MutableLiveData<List<Word>> allWordsLive;
 
     //创建一个livedata，用在recyclerView中
     public MutableLiveData<List<Word>> getAllWordsLive() {
@@ -61,6 +69,15 @@ public class MyViewModel extends AndroidViewModel {
             allWordsLive.setValue(wordList);
         }
         return allWordsLive;
+    }
+
+    //复习模式：创建一个livedata，用在recyclerView中
+    public MutableLiveData<List<Word>> getAllWordsLiveReview() {
+        if (allWordsLiveReview == null) {
+            allWordsLiveReview = new MutableLiveData<>();
+            allWordsLiveReview.setValue(wordListReview);
+        }
+        return allWordsLiveReview;
     }
 
     //3. 开始写,有个 application 参数，方便很多，貌似不用写context了
@@ -83,6 +100,8 @@ public class MyViewModel extends AndroidViewModel {
             handle.set(KEY_Button_D, "D");
         }
         sendRequestWithOkHttp(); //加载数据
+        Log.d("plz", "MyViewModel: " + wordList.size());
+
         this.handle = handle;
     }
 
@@ -168,37 +187,48 @@ public class MyViewModel extends AndroidViewModel {
 
     //题目部分
     public void generator() {
+
+        //获取所有单词的个数
         int level = wordList.size();
+
+        //实现随机出题
+        for (int i = 0; i < wordList.size(); i++) {
+            newWordList.add(i);
+        }
+        Collections.shuffle(newWordList);
+
+        //实现四个选项随机
         Random random = new Random();
         int x, y, z;
         x = random.nextInt(level);
         y = random.nextInt(level);
         z = random.nextInt(level);
 
-        while (x == token) {
+        //确保x，y，z不一样
+        while (x == newWordList.get(token)) {
             x = random.nextInt(level);
         }
 
-        while ((y == token) || (y == x)) {
+        while ((y == newWordList.get(token)) || (y == x)) {
             y = random.nextInt(level);
         }
 
-        while ((z == token) || (z == x) || (z == y)) {
+        while ((z == newWordList.get(token)) || (z == x) || (z == y)) {
             z = random.nextInt(level);
         }
 
-        //获取一个新单词
-        getNewWord().setValue(wordList.get(token).getWord());
-
-        //设置答案
-        getAnswer().setValue(wordList.get(token).getExp());
-
-        list.add(token);
+        // 打乱x，y，z的顺序
+        list.add(newWordList.get(token));
         list.add(x);
         list.add(y);
         list.add(z);
         Collections.shuffle(list);
 
+        //获取一个新单词
+        getNewWord().setValue(wordList.get(newWordList.get(token)).getWord());
+
+        //设置答案
+        getAnswer().setValue(wordList.get(newWordList.get(token)).getExp());
 
         //设置按钮 实现真正随机
         getButtonA().setValue(wordList.get(list.get(0)).getExp());
@@ -206,7 +236,12 @@ public class MyViewModel extends AndroidViewModel {
         getButtonC().setValue(wordList.get(list.get(2)).getExp());
         getButtonD().setValue(wordList.get(list.get(3)).getExp());
 
+        //存放当前单词对象，看是否存到复习list中
+        wordTemp = wordList.get(newWordList.get(token));
+
+        //恢复
         token++;
+        newWordList.clear();
         list.clear();
     }
 
@@ -234,6 +269,9 @@ public class MyViewModel extends AndroidViewModel {
             getHighScore().setValue(getCurrentScore().getValue());
             winFlag = true;
         }
+
+        //保存到复习模式
+        wordListReview.add(wordTemp);
 
         //再给他生成一道新题
         generator();

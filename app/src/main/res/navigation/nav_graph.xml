@@ -7,21 +7,18 @@
 
     <fragment
         android:id="@+id/titleFragment"
-        android:name="com.example.wordwar.TitleFragment"
-        android:label="fragment_title"
-        tools:layout="@layout/fragment_title" >
-        <action
-            android:id="@+id/action_titleFragment_to_practiceFragment"
-            app:destination="@id/practiceFragment" />
+        android:name="com.example.wordwar.fragment.TitleFragment"
+        android:label="Welcome"
+        tools:layout="@layout/fragment_title">
         <action
             android:id="@+id/action_titleFragment_to_fightFragment"
             app:destination="@id/fightFragment" />
     </fragment>
     <fragment
         android:id="@+id/fightFragment"
-        android:name="com.example.wordwar.FightFragment"
-        android:label="fragment_fight"
-        tools:layout="@layout/fragment_fight" >
+        android:name="com.example.wordwar.fragment.FightFragment"
+        android:label="fightting!!!"
+        tools:layout="@layout/fragment_fight">
         <action
             android:id="@+id/action_fightFragment_to_winFragment"
             app:destination="@id/winFragment" />
@@ -31,41 +28,20 @@
     </fragment>
     <fragment
         android:id="@+id/loseFragment"
-        android:name="com.example.wordwar.LoseFragment"
-        android:label="fragment_lose"
-        tools:layout="@layout/fragment_lose" >
+        android:name="com.example.wordwar.fragment.LoseFragment"
+        android:label="lose"
+        tools:layout="@layout/fragment_lose">
         <action
             android:id="@+id/action_loseFragment_to_titleFragment"
             app:destination="@id/titleFragment" />
     </fragment>
     <fragment
-        android:id="@+id/practiceFragment"
-        android:name="com.example.wordwar.PracticeFragment"
-        android:label="fragment_practice"
-        tools:layout="@layout/fragment_practice" >
-        <action
-            android:id="@+id/action_practiceFragment_to_titleFragment"
-            app:destination="@id/titleFragment" />
-        <action
-            android:id="@+id/action_practiceFragment_to_webFragment"
-            app:destination="@id/webFragment" />
-    </fragment>
-    <fragment
         android:id="@+id/winFragment"
-        android:name="com.example.wordwar.WinFragment"
-        android:label="fragment_win"
-        tools:layout="@layout/fragment_win" >
+        android:name="com.example.wordwar.fragment.WinFragment"
+        android:label="win"
+        tools:layout="@layout/fragment_win">
         <action
             android:id="@+id/action_winFragment_to_titleFragment"
             app:destination="@id/titleFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/webFragment"
-        android:name="com.example.wordwar.WebFragment"
-        android:label="fragment_web"
-        tools:layout="@layout/fragment_web" >
-        <action
-            android:id="@+id/action_webFragment_to_practiceFragment"
-            app:destination="@id/practiceFragment" />
     </fragment>
 </navigation>

@@ -1,4 +1,4 @@
-package com.example.wordwar;
+package com.example.wordwar.activity;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,26 +9,16 @@ import androidx.navigation.ui.NavigationUI;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.Objects;
-
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
+import com.example.wordwar.MyViewModel;
+import com.example.wordwar.R;
 
 public class MainActivity extends AppCompatActivity {
 
     //顶部导航栏
     NavController controller;
     MyViewModel myViewModel;
+    public static MainActivity mainActivity = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,12 +33,16 @@ public class MainActivity extends AppCompatActivity {
 
         //2. 设置左上角导航栏
         NavigationUI.setupActionBarWithNavController(this, controller);
+
+        mainActivity = this;
+
+        myViewModel = new ViewModelProvider(MainActivity.mainActivity).get(MyViewModel.class);
     }
 
     //3. 设置导航栏作用
     @Override
     public boolean onSupportNavigateUp() {
-        myViewModel = new ViewModelProvider(this).get(MyViewModel.class);
+
         //正在答题时退出
         if (controller.getCurrentDestination().getId() == R.id.fightFragment) {
 
@@ -75,7 +69,9 @@ public class MainActivity extends AppCompatActivity {
             dialog.show();
         } else if (controller.getCurrentDestination().getId() == R.id.titleFragment) {
             finish();
-        } else {
+        } else if(controller.getCurrentDestination().getId() == R.id.webFragment) {
+            controller.navigate(R.id.practiceFragment);
+        }else {
             controller.navigate(R.id.titleFragment);
         }
         return super.onSupportNavigateUp();
@@ -86,6 +82,4 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed() {
         onSupportNavigateUp();
     }
-
-
 }

@@ -24,4 +24,7 @@
     <string name="practice_button_back">Back</string>
     <string name="practice_button_web">Web</string>
     <string name="lose_score">Your Score : %d</string>
+    <string name="fight_uk_button">uk</string>
+    <string name="fight_us_button">us</string>
+    <string name="title_button_review">review</string>
 </resources>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/practice_nav"
+    app:startDestination="@id/practiceFragment">
+
+    <fragment
+        android:id="@+id/practiceFragment"
+        android:name="com.example.wordwar.fragment.PracticeFragment"
+        android:label="PracticeFragment"
+        tools:layout="@layout/fragment_practice">
+        <action
+            android:id="@+id/action_practiceFragment_to_webFragment"
+            app:destination="@id/webFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/webFragment"
+        android:name="com.example.wordwar.fragment.WebFragment"
+        android:label="fragment_web"
+        tools:layout="@layout/fragment_web" >
+        <action
+            android:id="@+id/action_webFragment_to_practiceFragment"
+            app:destination="@id/practiceFragment" />
+    </fragment>
+</navigation>

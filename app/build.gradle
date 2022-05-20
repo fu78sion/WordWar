@@ -8,7 +8,7 @@ android {
     defaultConfig {
         applicationId "com.example.wordwar"
         minSdk 21
-        targetSdk 26
+        targetSdk 32
         versionCode 1
         versionName "1.0"
 

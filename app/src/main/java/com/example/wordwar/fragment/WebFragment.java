@@ -1,25 +1,25 @@
-package com.example.wordwar;
+package com.example.wordwar.fragment;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
-import androidx.databinding.DataBindingUtil;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
-import com.example.wordwar.databinding.FragmentLoseBinding;
+import com.example.wordwar.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link LoseFragment#newInstance} factory method to
+ * Use the {@link WebFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class LoseFragment extends Fragment {
+public class WebFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -30,7 +30,7 @@ public class LoseFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public LoseFragment() {
+    public WebFragment() {
         // Required empty public constructor
     }
 
@@ -40,11 +40,11 @@ public class LoseFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment LoseFragment.
+     * @return A new instance of fragment WebFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static LoseFragment newInstance(String param1, String param2) {
-        LoseFragment fragment = new LoseFragment();
+    public static WebFragment newInstance(String param1, String param2) {
+        WebFragment fragment = new WebFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -64,25 +64,26 @@ public class LoseFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         // Inflate the layout for this fragment
-        // return inflater.inflate(R.layout.fragment_lose, container, false);
-        //2. 定义变量 myViewModel 没什么大变化 dataBinding四部曲
-        MyViewModel myViewModel = new ViewModelProvider(requireActivity()).get(MyViewModel.class);
-        FragmentLoseBinding binding = DataBindingUtil.inflate(inflater,R.layout.fragment_lose,container,false);
-        binding.setData(myViewModel);
-        binding.setLifecycleOwner(getActivity());
+        return inflater.inflate(R.layout.fragment_web, container, false);
+    }
 
-        binding.button10.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                myViewModel.getCurrentScore().setValue(0);
-                myViewModel.setToken(0);
-                NavController controller = Navigation.findNavController(view);
-                controller.navigate(R.id.action_loseFragment_to_titleFragment);
-            }
-        });
+    @SuppressLint("SetJavaScriptEnabled")
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        assert getArguments() != null;
+        String uri = getArguments().getString("uri");
+        WebView wvWeb = requireView().findViewById(R.id.webView);
 
-        return binding.getRoot();
+        //让webView支持JavaScript脚本
+        wvWeb.getSettings().setJavaScriptEnabled(true);
+
+        //这行可加可不加，加上的话，在当前的网页打开二级网页时，还是显示在WebView上，
+        //如果不加的话，则会在浏览器上去显示新的页面。
+        wvWeb.setWebViewClient(new WebViewClient());
+
+        //根据URl去加载页面
+        wvWeb.loadUrl(uri);
     }
 }

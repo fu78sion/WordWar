@@ -4,14 +4,18 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Android/AndroidStudioProjects/WordWar/app/src/main/res/drawable/ic_win.xml" value="0.2345" />
+        <entry key="..\:/Android/AndroidStudioProjects/WordWar/app/src/main/res/drawable/volume_uk.xml" value="0.131" />
         <entry key="..\:/Android/AndroidStudioProjects/WordWar/app/src/main/res/layout/activity_main.xml" value="0.21354166666666666" />
-        <entry key="..\:/Android/AndroidStudioProjects/WordWar/app/src/main/res/layout/cell_card.xml" value="0.228125" />
-        <entry key="..\:/Android/AndroidStudioProjects/WordWar/app/src/main/res/layout/fragment_fight.xml" value="0.228125" />
+        <entry key="..\:/Android/AndroidStudioProjects/WordWar/app/src/main/res/layout/activity_practice.xml" value="0.228125" />
+        <entry key="..\:/Android/AndroidStudioProjects/WordWar/app/src/main/res/layout/activity_review.xml" value="0.228125" />
+        <entry key="..\:/Android/AndroidStudioProjects/WordWar/app/src/main/res/layout/cell_card.xml" value="0.2857142857142857" />
+        <entry key="..\:/Android/AndroidStudioProjects/WordWar/app/src/main/res/layout/cell_card_without_cn.xml" value="0.228125" />
+        <entry key="..\:/Android/AndroidStudioProjects/WordWar/app/src/main/res/layout/fragment_fight.xml" value="0.2857142857142857" />
         <entry key="..\:/Android/AndroidStudioProjects/WordWar/app/src/main/res/layout/fragment_lose.xml" value="0.228125" />
         <entry key="..\:/Android/AndroidStudioProjects/WordWar/app/src/main/res/layout/fragment_practice.xml" value="0.228125" />
         <entry key="..\:/Android/AndroidStudioProjects/WordWar/app/src/main/res/layout/fragment_title.xml" value="0.2857142857142857" />
         <entry key="..\:/Android/AndroidStudioProjects/WordWar/app/src/main/res/layout/fragment_web.xml" value="0.228125" />
-        <entry key="..\:/Android/AndroidStudioProjects/WordWar/app/src/main/res/layout/fragment_win.xml" value="0.18857142857142858" />
+        <entry key="..\:/Android/AndroidStudioProjects/WordWar/app/src/main/res/layout/fragment_win.xml" value="0.2857142857142857" />
       </map>
     </option>
   </component>

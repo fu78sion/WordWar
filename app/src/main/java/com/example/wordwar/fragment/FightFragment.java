@@ -1,5 +1,6 @@
-package com.example.wordwar;
+package com.example.wordwar.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.databinding.DataBindingUtil;
@@ -12,7 +13,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.wordwar.MyViewModel;
+import com.example.wordwar.R;
 import com.example.wordwar.databinding.FragmentFightBinding;
+import com.example.wordwar.service.MyService;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -72,14 +76,14 @@ public class FightFragment extends Fragment {
         myViewModel.generator(); //生成题目
 
         // binding变化很大
-        FragmentFightBinding binding = DataBindingUtil.inflate(inflater,R.layout.fragment_fight,container,false);
+        FragmentFightBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_fight, container, false);
         binding.setData(myViewModel);
         binding.setLifecycleOwner(requireActivity());
 
         binding.buttonA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (String.valueOf(binding.buttonA.getText()).equals(myViewModel.getAnswer().getValue())){
+                if (String.valueOf(binding.buttonA.getText()).equals(myViewModel.getAnswer().getValue())) {
                     myViewModel.answerRight();
                 } else { //失败，有两种情况，一种是超越记录，一种是没超越 这里会涉及到fragment的跳转
                     NavController controller = Navigation.findNavController(view);
@@ -97,7 +101,7 @@ public class FightFragment extends Fragment {
         binding.buttonB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (String.valueOf(binding.buttonB.getText()).equals(myViewModel.getAnswer().getValue())){
+                if (String.valueOf(binding.buttonB.getText()).equals(myViewModel.getAnswer().getValue())) {
                     myViewModel.answerRight();
                 } else { //失败，有两种情况，一种是超越记录，一种是没超越 这里会涉及到fragment的跳转
                     NavController controller = Navigation.findNavController(view);
@@ -115,7 +119,7 @@ public class FightFragment extends Fragment {
         binding.buttonC.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (String.valueOf(binding.buttonC.getText()).equals(myViewModel.getAnswer().getValue())){
+                if (String.valueOf(binding.buttonC.getText()).equals(myViewModel.getAnswer().getValue())) {
                     myViewModel.answerRight();
                 } else { //失败，有两种情况，一种是超越记录，一种是没超越 这里会涉及到fragment的跳转
                     NavController controller = Navigation.findNavController(view);
@@ -134,7 +138,7 @@ public class FightFragment extends Fragment {
         binding.buttonD.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (String.valueOf(binding.buttonD.getText()).equals(myViewModel.getAnswer().getValue())){
+                if (String.valueOf(binding.buttonD.getText()).equals(myViewModel.getAnswer().getValue())) {
                     myViewModel.answerRight();
                 } else { //失败，有两种情况，一种是超越记录，一种是没超越 这里会涉及到fragment的跳转
                     NavController controller = Navigation.findNavController(view);
@@ -146,6 +150,25 @@ public class FightFragment extends Fragment {
                         controller.navigate(R.id.action_fightFragment_to_loseFragment);
                     }
                 }
+            }
+        });
+
+        binding.imageButtonUk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(requireActivity(), MyService.class);
+                intent.putExtra("query", "https://dict.youdao.com/dictvoice?type=1&audio=" + myViewModel.getNewWord().getValue());
+                requireActivity().startService(intent);
+                //requireActivity().stopService(intent);
+            }
+        });
+
+        binding.imageButtonUs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(requireActivity(), MyService.class);
+                intent.putExtra("query", "https://dict.youdao.com/dictvoice?type=0&audio=" + myViewModel.getNewWord().getValue());
+                requireActivity().startService(intent);
             }
         });
 
